@@ -1,0 +1,142 @@
+:root {
+  --light: #CDEA51;
+  --dark: #100F15;
+  --light-holo: #CDEA511B;
+  --holo: #808FB038;
+}
+
+body {
+  color: var(--light);
+  background-color: var(--dark);
+  font-family: monospace;
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--light-holo);
+}
+
+details {
+  border: 1px solid var(--light);
+  margin: 1rem 0;
+  box-sizing: border-box;
+  max-width: calc(100% - 1px);
+}
+
+summary {
+  padding: 0.25rem 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: var(--light);
+  color: var(--dark);
+}
+
+.small-input {
+  width: 3.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: var(--light);
+  background-color: var(--holo);
+  border: 1px solid var(--light);
+  border-radius: 2px;
+}
+
+.sequence-input {
+  width: 10.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: var(--light);
+  background-color: var(--holo);
+  border: 1px solid var(--light);
+  border-radius: 2px;
+}
+
+.cell-input {
+  font-size: 1.25rem;
+  color: var(--light);
+  background-color: var(--holo);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  text-align: center;
+  font-family: monospace;
+}
+
+.cell-input:focus {
+  border: 1px solid cyan;
+  box-shadow: 0 2px 4px 0 cyan;
+}
+
+.matrix {
+  display: grid;
+  gap: 1rem;
+}
+
+button {
+  color: var(--light);
+  padding: 0.25rem 1rem;
+  background-color: transparent;
+  border: 1px solid var(--light);
+  border-radius: 2px;
+  font-size: 1.5rem;
+}
+
+label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.25rem;
+  width: 100%;
+  max-width: 20rem;
+  padding-bottom: 1rem;
+}
+
+form, #solutionMatrix {
+  margin: 1rem;
+}
+
+#sequenceList {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0 1rem;
+}
+
+#sequenceList li {
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 20rem;
+  width: 100%;
+}
+
+#sequenceList li + li {
+  margin-top: 0.5rem;
+}
+
+.solution-cell {
+  position: relative;
+}
+
+.data-underlay {
+  opacity: 0.25;
+  font-size: 1.25rem;
+}
+
+.solution-overlay {
+  background-color: var(--holo);
+  color: var(--light);
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1.25rem;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  font-weight: bold;
+}

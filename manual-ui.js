@@ -12,8 +12,8 @@ function handleMatrixResize(submitEvent) {
 
   Array.from(matrixForm.children).forEach(child => child.remove())
 
-  matrixForm.style.gridTemplateColumns = `repeat(${width}, 1fr)`
-  matrixForm.style.gridTemplateRows = `repeat(${height}, 1fr)`
+  matrixForm.style.gridTemplateColumns = `repeat(${width}, 2.5em)`
+  matrixForm.style.gridTemplateRows = `repeat(${height}, 2.5em)`
   matrixForm.setAttribute("data-width", width)
   matrixForm.setAttribute("data-height", height)
 
@@ -38,6 +38,7 @@ function createMatrixCell(index, width, height, currentMatrixValues) {
   input.value = get2D(currentMatrixValues.data, index, width) || ""
   input.setAttribute('data-x', x)
   input.setAttribute('data-y', y)
+  input.classList.add('cell-input')
 
   return input
 }
@@ -122,8 +123,8 @@ function handleSolve(submitEvent) {
 
   Array.from(solutionMatrix.children).forEach(child => child.remove())
 
-  solutionMatrix.style.gridTemplateColumns = `repeat(${width}, 1fr)`
-  solutionMatrix.style.gridTemplateRows = `repeat(${height}, 1fr)`
+  solutionMatrix.style.gridTemplateColumns = `repeat(${width}, 2.5em)`
+  solutionMatrix.style.gridTemplateRows = `repeat(${height}, 2.5em)`
 
   solutionCells.forEach(el => solutionMatrix.appendChild(el))
 
@@ -135,7 +136,9 @@ function createMatrixSolutionCell(index, width, matrixValues, solution) {
   const solutionWithIndex = solution.map((value, index) => ({value, index}))
   const solutionForCell = solutionWithIndex.find(({value}) => value.x === x && value.y === y)
   const el = document.createElement('div') // maybe use something else for the cell wrapper..
+  el.classList.add('solution-cell')
   const dataUnderlay = document.createElement('output')
+  dataUnderlay.classList.add('data-underlay');
   dataUnderlay.value = get2D(matrixValues.data, index, width)
 
   el.appendChild(dataUnderlay)
@@ -143,6 +146,7 @@ function createMatrixSolutionCell(index, width, matrixValues, solution) {
   if(solutionForCell) {
     const solutionIndexOverlay = document.createElement('output')
     solutionIndexOverlay.value = solutionForCell.index
+    solutionIndexOverlay.classList.add('solution-overlay');
     el.appendChild(solutionIndexOverlay)
   }
 
