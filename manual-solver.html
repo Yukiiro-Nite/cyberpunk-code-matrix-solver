@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <h1>Cyberpunk 2077 Manual Solver</h1>
+
+    <details>
+      <summary>
+        Matrix Size
+      </summary>
+      <form id="matrixSizeForm">
+        <label>
+          Width
+          <input type="number" name="width">
+        </label>
+        <label>
+          Height
+          <input type="number" name="height">
+        </label>
+        <button>Apply</button>
+      </form>
+    </details>
+
+    <details>
+      <summary>
+        Matrix
+      </summary>
+      <form id="matrixForm" style="display: grid"></form>
+    </details>
+
+    <details>
+      <summary>
+        Sequences
+      </summary>
+      <ul id="sequenceList"></ul>
+      <form id="sequenceForm">
+        <label>
+          New Sequence
+          <input type="text" name="sequence">
+        </label>
+        <button>Add</button>
+      </form>
+    </details>
+
+    <details>
+      <summary>
+        Solver
+      </summary>
+      <form id="solveForm">
+        <label>
+          Buffer Size
+          <input type="number" name="bufferSize">
+        </label>
+        <button>Solve</button>
+      </form>
+      <div id="solutionMatrix" style="display: grid"></div>
+    </details>
+
+    <script src="manual-ui.js"></script>
+  </body>
+</html>

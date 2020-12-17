@@ -83,8 +83,8 @@ function solveSequencesFromPos(codeMatrix, x, y, sequences, prevDir, prevPositio
   }
 }
 
-console.log(findSequences(demoData1, [demoSequence2]))
-console.log(findSequences(demoData2, demoSequence3, 4))
+// console.log(findSequences(demoData1, [demoSequence2]))
+// console.log(findSequences(demoData2, demoSequence3, 4))
 
 /**
  * TODO:
