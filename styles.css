@@ -140,3 +140,7 @@ form, #solutionMatrix {
   height: 100%;
   font-weight: bold;
 }
+
+a {
+  color: var(--light);
+}
