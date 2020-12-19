@@ -119,14 +119,18 @@ function handleSolve(submitEvent) {
   const sequences = getSequences()
   const solution = findSequences(matrixValues.data, sequences, bufferSize)
 
-  const solutionCells = new Array(width * height).fill().map((_, i) => createMatrixSolutionCell(i, width, matrixValues, solution))
+  if(solution) {
+    const solutionCells = new Array(width * height).fill().map((_, i) => createMatrixSolutionCell(i, width, matrixValues, solution))
 
-  Array.from(solutionMatrix.children).forEach(child => child.remove())
+    Array.from(solutionMatrix.children).forEach(child => child.remove())
 
-  solutionMatrix.style.gridTemplateColumns = `repeat(${width}, 2.5em)`
-  solutionMatrix.style.gridTemplateRows = `repeat(${height}, 2.5em)`
+    solutionMatrix.style.gridTemplateColumns = `repeat(${width}, 2.5em)`
+    solutionMatrix.style.gridTemplateRows = `repeat(${height}, 2.5em)`
 
-  solutionCells.forEach(el => solutionMatrix.appendChild(el))
+    solutionCells.forEach(el => solutionMatrix.appendChild(el))
+  } else {
+    // need some kind of error output here.
+  }
 
   console.log(solution)
 }
@@ -145,7 +149,7 @@ function createMatrixSolutionCell(index, width, matrixValues, solution) {
 
   if(solutionForCell) {
     const solutionIndexOverlay = document.createElement('output')
-    solutionIndexOverlay.value = solutionForCell.index
+    solutionIndexOverlay.value = solutionForCell.index + 1
     solutionIndexOverlay.classList.add('solution-overlay');
     el.appendChild(solutionIndexOverlay)
   }

@@ -22,37 +22,27 @@ const demoSequence3 = [
 ]
 
 function findSequences(codeMatrix, sequences, bufferSize) {
-  for(let y = 0; y < codeMatrix.length; y++) {
-    for(let x = 0; x < codeMatrix[0].length; x++) {
-      const result = solveSequencesFromPos(codeMatrix, x, y, sequences, undefined, [], bufferSize)
-      if(result) {
-        return result
-      }
+  // Start from the top row
+  for(let x = 0; x < codeMatrix[0].length; x++) {
+    const result = solveSequencesFromPos(codeMatrix, x, 0, sequences, 'x', [], bufferSize)
+    if(result) {
+      return result
     }
   }
 }
 
 function solveSequencesFromPos(codeMatrix, x, y, sequences, prevDir, prevPositions = [], bufferSize) {
-  const currentCell = codeMatrix[y][x]
   const currentPos = {x, y}
-  const [heads, tails] = sequences.reduce((acc, seq) => {
-    const [head, ...tail] = seq
-    acc[0].push(head)
-    acc[1].push(tail)
-    return acc
-  }, [[], []])
   const currentPosUsed = prevPositions.find(pos => pos.x === currentPos.x && pos.y === currentPos.y)
-  const hasMatch = heads.find(head => head === currentCell)
-  const hasMore = tails.some(tail => tail && tail.length > 0)
-  if(currentPosUsed || !hasMatch || bufferSize === 0){
+  const nextPositions = [].concat(prevPositions, currentPos)
+  const currentSolution = nextPositions.map(pos => codeMatrix[pos.y][pos.x])
+
+  if(currentPosUsed || bufferSize <= 0) {
     return false
-  } else if(hasMore) {
+  } else if(solvesSequence(currentSolution, sequences)) {
+    return nextPositions
+  } else {
     const maxSize = Math.max(codeMatrix.length, codeMatrix[0].length)
-    const nextSequences = heads.map((head, index) =>
-      head === currentCell
-        ? tails[index]
-        : sequences[index]
-    )
 
     let checkX, checkY
     for(let i = 0; i < maxSize; i++) {
@@ -64,21 +54,27 @@ function solveSequencesFromPos(codeMatrix, x, y, sequences, prevDir, prevPositio
         && i !== x
         && prevDir !== 'x'
       if(checkY) {
-        yResult = solveSequencesFromPos(codeMatrix, x, i, nextSequences, 'y', prevPositions.concat(currentPos), bufferSize--)
+        yResult = solveSequencesFromPos(codeMatrix, x, i, sequences, 'y', nextPositions, bufferSize - 1)
       }
       if(checkX) {
-        xResult = solveSequencesFromPos(codeMatrix, i, y, nextSequences, 'x', prevPositions.concat(currentPos), bufferSize--)
+        xResult = solveSequencesFromPos(codeMatrix, i, y, sequences, 'x', nextPositions, bufferSize - 1)
       }
 
       if(xResult) {
-        return [currentPos, ...xResult]
+        return xResult
       } else if(yResult) {
-        return [currentPos, ...yResult]
+        return yResult
       }
     }
 
     return false
-  } else {
-    return [currentPos]
   }
+}
+
+function solvesSequence(solution, sequences) {
+  return sequences.every(sequence => containsSequence(solution, sequence))
+}
+
+function containsSequence(a, b) {
+  return a.join(' ').includes(b.join(' '))
 }
