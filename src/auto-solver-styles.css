@@ -1,0 +1,14 @@
+#getImageWrapper {
+  margin: 1rem;
+}
+
+#previewImage {
+  display: block;
+  width: 100%;
+  max-width: 30rem;
+  margin-bottom: 1rem;
+}
+
+#imageError {
+  color: #ff0044;
+}

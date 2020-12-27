@@ -1,12 +1,50 @@
 <html>
   <head>
-    <script src="main.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auto-solver-styles.css">
+    <script src="solver.js"></script>
   </head>
   <body>
     <h1>Cyberpunk 2077 Automatic Solver</h1>
-    <p>
-      This feature isn't ready yet. In the mean time, check out the <a href="manual-solver.html">manual solver</a>
-    </p>
+    <div id="getImageWrapper">
+      <div id="selectImagePanel">
+        <h2>Get a puzzle image</h2>
+        <p>from...</p>
+        <form id="getCameraImage">
+          <input type="hidden" name="imageType" value="camera">
+          <button>Camera</button>
+        </form>
+        <form id="getScreenImage">
+          <input type="hidden" name="imageType" value="screen">
+          <button>Screen</button>
+        </form>
+        <form id="getFileImage">
+          <input type="hidden" name="imageType" value="file">
+          <button>File</button>
+        </form>
+      </div>
+      <form id="imagePreview" hidden="true">
+        <img id="previewImage"></img>
+        <div id="imageError" hidden="true">
+          <p>
+            There does not appear to be a hacking puzzle in this image.
+            Please try another image.
+          </p>
+          <h3>Tips</h3>
+          <ul>
+            <li>Avoid images with glare.</li>
+            <li>Make sure the whole puzzle is visible.</li>
+            <li>Make sure puzzle is clear in the image.</li>
+          </ul>
+        </div>
+        <button id="getDifferentImageButton">Get Different Image</button>
+        <button>Use This Image</button>
+      </form>
+    </div>
+
+    <script src="auto-solver-scripts/detectPuzzle.js"></script>
+    <script src="auto-solver-scripts/parsePuzzle.js"></script>
+    <script src="auto-solver-scripts/overlayPuzzle.js"></script>
+    <script src="auto-solver-scripts/getImage.js"></script>
   </body>
 </html>
