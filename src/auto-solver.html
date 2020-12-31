@@ -2,10 +2,23 @@
   <head>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="auto-solver-styles.css">
+    <script src="lib/opencv.js"></script>
+    <script src='https://unpkg.com/tesseract.js@v2.1.4/dist/tesseract.min.js'></script>
     <script src="solver.js"></script>
   </head>
   <body>
     <h1>Cyberpunk 2077 Automatic Solver</h1>
+
+    <div id="imageAssets" hidden="true">
+      <img name="netTechLogo" src="assets/NetTechLogo.png"></img>
+      <img name="bufferLabel" src="assets/BufferLabel.png"></img>
+      <img name="breachTimeLabel" src="assets/BreachTimeLabel.png"></img>
+      <img name="codeMatrixLabel" src="assets/CodeMatrixLabel.png"></img>
+      <img name="sequencesLabel" src="assets/SequencesLabel.png"></img>
+      <img name="fullUI" src="assets/FullUI.png"></img>
+      <img name="fullUIMask" src="assets/FullUI_mask.png"></img>
+    </div>
+
     <div id="getImageWrapper">
       <div id="selectImagePanel">
         <h2>Get a puzzle image</h2>
@@ -23,7 +36,7 @@
           <button>File</button>
         </form>
       </div>
-      <form id="imagePreview" hidden="true">
+      <form id="imagePreviewForm" hidden="true">
         <img id="previewImage"></img>
         <div id="imageError" hidden="true">
           <p>
@@ -42,6 +55,11 @@
       </form>
     </div>
 
+    <div id="imageOverlay" hidden="true">
+      <canvas id="imageOverlayCanvas"></canvas>
+    </div>
+
+    <script src="auto-solver-scripts/showHide.js"></script>
     <script src="auto-solver-scripts/detectPuzzle.js"></script>
     <script src="auto-solver-scripts/parsePuzzle.js"></script>
     <script src="auto-solver-scripts/overlayPuzzle.js"></script>

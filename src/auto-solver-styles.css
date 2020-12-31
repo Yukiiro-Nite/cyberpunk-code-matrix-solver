@@ -4,8 +4,8 @@
 
 #previewImage {
   display: block;
-  width: 100%;
-  max-width: 30rem;
+  /* width: 100%;
+  max-width: 30rem; */
   margin-bottom: 1rem;
 }
 

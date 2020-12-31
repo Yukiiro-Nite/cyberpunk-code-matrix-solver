@@ -1,27 +1,21 @@
 getCameraImage.addEventListener('submit', handleGetImage.bind(this, 'camera'))
 getScreenImage.addEventListener('submit', handleGetImage.bind(this, 'screen'))
 getFileImage.addEventListener('submit', handleGetImage.bind(this, 'file'))
-imagePreview.addEventListener('submit', handleImageSubmit)
+imagePreviewForm.addEventListener('submit', handleImageSubmit)
 getDifferentImageButton.addEventListener('click', handleGetDifferentImage)
 
 function handleImageSubmit (submitEvent) {
   submitEvent.preventDefault();
 
-  const imageHasPuzzle = detectPuzzle(imagePreview)
+  const imageHasPuzzle = detectPuzzle(previewImage)
 
   if(imageHasPuzzle) {
-
+    showImageOverlay()
   } else {
     showImageError()
   }
 
   console.log('Handling image submit event!')
-}
-
-function goToImagePreview () {
-  hideSelectImage()
-  hideImageError()
-  showImagePreview()
 }
 
 function handleGetImage(type, submitEvent) {
@@ -44,62 +38,11 @@ function handleGetImage(type, submitEvent) {
   goToImagePreview()
 }
 
-function handleGetCameraImage (submitEvent) {
-  submitEvent.preventDefault()
-
-  console.log('Handling get camera image!')
-  camera()
-
-  goToImagePreview()
-}
-
-function handleGetScreenImage (submitEvent) {
-  submitEvent.preventDefault()
-
-  console.log('Handling get screen image!')
-  screen()
-
-  hideSelectImage()
-  showImagePreview()
-}
-
-function handleGetFileImage (submitEvent) {
-  submitEvent.preventDefault()
-
-  console.log('Handling get file image!')
-  file()
-
-  hideSelectImage()
-  showImagePreview()
-}
-
 function handleGetDifferentImage (clickEvent) {
   clickEvent.preventDefault();
 
-  hideImagePreview()
-  showSelectImage()
+  goToSelectImage()
 }
-
-function changeHidden(el, hidden) {
-  let currentHidden = el.getAttribute('hidden')
-  if(currentHidden !== hidden) {
-    hidden
-      ? el.setAttribute('hidden', hidden)
-      : el.removeAttribute('hidden')
-  }
-}
-
-function showImagePreview () { changeHidden(imagePreview, false) }
-function hideImagePreview () { changeHidden(imagePreview, true) }
-
-function showGetImageWrapper () { changeHidden(getImageWrapper, false) }
-function hideGetImageWrapper () { changeHidden(getImageWrapper, true) }
-
-function showSelectImage () { changeHidden(selectImagePanel, false) }
-function hideSelectImage () { changeHidden(selectImagePanel, true) }
-
-function showImageError () { changeHidden(imageError, false) }
-function hideImageError () { changeHidden(imageError, true) }
 
 function getBackgroundVideo() {
   let video = document.getElementById('bg-video')
