@@ -5,11 +5,19 @@ function parsePuzzle(selections) {
 
   Promise.all(readSelections)
     .then((parsedSelections) => {
+      const puzzleState = {}
+
       parsedSelections.forEach((parsedSelection) => {
         console.log(parsedSelection.selection.label)
         console.log(parsedSelection.result.data.text)
+        console.log(parsedSelection.result)
+
+        puzzleState[parsedSelection.selection.label] = parsedSelection
       })
+
+      return puzzleState
     })
+    .then(overlayPuzzle)
 }
 
 function matToCanvas (mat) {
@@ -17,7 +25,7 @@ function matToCanvas (mat) {
 
   cv.imshow(canvasEl, mat)
 
-  document.body.appendChild(canvasEl)
+  // document.body.appendChild(canvasEl)
 
   return canvasEl
 }
@@ -25,11 +33,33 @@ function matToCanvas (mat) {
 function preProcessSelection (selection) {
   const grayOut = new cv.Mat()
   const invertOut = new cv.Mat()
+  const blurOut = new cv.Mat()
 
   cv.cvtColor(selection, grayOut, cv.COLOR_RGBA2GRAY, 0);
   cv.bitwise_not(grayOut, invertOut);
+  let ksize = new cv.Size(3, 3);
+  cv.GaussianBlur(invertOut, blurOut, ksize, 0, 0, cv.BORDER_DEFAULT);
 
-  return matToCanvas(invertOut)
+  return matToCanvas(blurOut)
+}
+
+function drawWordBoundingBoxes (canvasEl, result) {
+  const mat = cv.imread(canvasEl)
+  const wordColor = new cv.Scalar(255, 0, 0, 255);
+  const symbolColor = new cv.Scalar(0, 0, 255, 255);
+
+  drawBoundingBoxes(mat, canvasEl, result.data.words, wordColor)
+  drawBoundingBoxes(mat, canvasEl, result.data.symbols, symbolColor)
+}
+
+function drawBoundingBoxes (material, outputEl, items, color) {
+  items.forEach((item) => {
+    const tl = { x: item.bbox.x0, y: item.bbox.y0 }
+    const br = { x: item.bbox.x1, y: item.bbox.y1 }
+    cv.rectangle(material, tl, br, color, 1, cv.LINE_8, 0);
+  })
+
+  cv.imshow(outputEl, material)
 }
 
 function prepareWorker (label) {
@@ -63,6 +93,7 @@ function readSelection (selection) {
         .then((result) => worker.terminate()
           .then(() => {
             console.log(`[${selection.label}] Worker terminated.`)
+            // drawWordBoundingBoxes(canvas, result)
             return result
           }))
     })

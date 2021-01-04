@@ -2,6 +2,10 @@
   margin: 1rem;
 }
 
+#imageOverlay {
+  margin: 1rem;
+}
+
 #previewImage {
   display: block;
   /* width: 100%;

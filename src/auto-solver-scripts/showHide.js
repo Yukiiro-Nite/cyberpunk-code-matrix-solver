@@ -36,3 +36,11 @@ function goToImagePreview () {
   showGetImageWrapper()
   showImagePreview()
 }
+
+function goToImageOverlay () {
+  hideSelectImage()
+  hideImageError()
+  hideGetImageWrapper()
+  hideImagePreview()
+  showImageOverlay()
+}

@@ -27,8 +27,6 @@ function detectPuzzle (imageEl) {
     parsePuzzle(requiredSections)
   }
 
-  cv.imshow(imageOverlayCanvas, requiredSections[1].roi)
-
   return true
 }
 
@@ -38,7 +36,7 @@ function getRequiredSections(img, labels) {
       const assetMaterial = getAssetMat(label)
       const minMax = containsImage(img, assetMaterial)
 
-      if(minMax.maxVal > 0.7) {
+      if(minMax && minMax.maxVal > 0.7) {
         const labelBounds = bounds[label]
         const size = {
           width: labelBounds ? labelBounds.width : assetMaterial.cols,
@@ -46,13 +44,18 @@ function getRequiredSections(img, labels) {
         }
         const rect = new cv.Rect(minMax.maxLoc.x, minMax.maxLoc.y + assetMaterial.rows, size.width, size.height - assetMaterial.rows)
 
-        return {
-          label,
-          rect,
-          roi: img.roi(rect)
+        if( rect.x + rect.width > img.cols || rect.y + rect.height > img.rows) {
+          console.log(`${label} found, but img was not large enough to contain information.`)
+          return false
+        } else {
+          return {
+            label,
+            rect,
+            roi: img.roi(rect)
+          }
         }
       } else {
-        console.log(`${label} not found, maxVal was too low: ${minMax.maxVal}`)
+        console.log(`${label} not found, maxVal was too low: ${minMax && minMax.maxVal}`)
         return false
       }
     })
@@ -90,19 +93,24 @@ function drawLabels(img) {
 }
 
 function containsImage(src, search) {
-  const mask = new cv.Mat();
-  const result = new cv.Mat();
+  if(search.rows > src.rows || search.cols > src.cols) {
+    console.log('Search image is too big for the src image!')
+    return false
+  } else {
+    const mask = new cv.Mat();
+    const result = new cv.Mat();
 
-  const graySrc = new cv.Mat();
-  cv.cvtColor(src,graySrc, cv.COLOR_RGBA2GRAY, 0);
+    const graySrc = new cv.Mat();
+    cv.cvtColor(src,graySrc, cv.COLOR_RGBA2GRAY, 0);
 
-  const graySearch = new cv.Mat();
-  cv.cvtColor(search, graySearch, cv.COLOR_RGBA2GRAY, 0);
+    const graySearch = new cv.Mat();
+    cv.cvtColor(search, graySearch, cv.COLOR_RGBA2GRAY, 0);
 
-  cv.matchTemplate(graySrc, graySearch, result, cv.TM_CCOEFF_NORMED, mask);
-  const minMax = cv.minMaxLoc(result);
+    cv.matchTemplate(graySrc, graySearch, result, cv.TM_CCOEFF_NORMED, mask);
+    const minMax = cv.minMaxLoc(result);
 
-  return minMax
+    return minMax
+  }
 }
 
 const assetMaterials = {}

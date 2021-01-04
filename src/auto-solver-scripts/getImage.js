@@ -3,6 +3,7 @@ getScreenImage.addEventListener('submit', handleGetImage.bind(this, 'screen'))
 getFileImage.addEventListener('submit', handleGetImage.bind(this, 'file'))
 imagePreviewForm.addEventListener('submit', handleImageSubmit)
 getDifferentImageButton.addEventListener('click', handleGetDifferentImage)
+backToGetImageButton.addEventListener('click', handleGetDifferentImage)
 
 function handleImageSubmit (submitEvent) {
   submitEvent.preventDefault();
